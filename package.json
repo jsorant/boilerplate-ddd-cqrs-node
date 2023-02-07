@@ -1,0 +1,26 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "license": "proprietary",
+  "devDependencies": {
+    "@cucumber/cucumber": "^8.3.0",
+    "@types/cucumber": "^6.0.1",
+    "@types/node": "^14.0.27",
+    "@types/sqlite3": "^3.1.8",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.5.4"
+  },
+  "scripts": {
+    "test": "cucumber-js ./tests/Features/",
+    "test:inmemory": "npm test -- --profile inmemory",
+    "test:sqlite3": "npm test -- --profile sqlite3",
+    "test:inmemory:only": "npm run test:inmemory -- --tags \"@only\"",
+    "test:sqlite3:only": "npm run test:sqlite3 -- --tags \"@only\"",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "sqlite": "^4.1.2",
+    "sqlite3": "^5.1.4",
+    "uuid": "^9.0.0"
+  }
+}
