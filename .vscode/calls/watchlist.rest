@@ -1,0 +1,11 @@
+POST http://localhost:3000/trackcity
+content-type: application/json
+
+{"watchlist": "My list", "name": "Lyon"}
+
+###
+
+GET http://localhost:3000/watchList
+content-type: application/json
+
+{"name": "My list"}
