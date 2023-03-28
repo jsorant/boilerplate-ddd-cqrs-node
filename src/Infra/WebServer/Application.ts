@@ -1,8 +1,11 @@
 import bodyParser from "body-parser";
 import express from "express";
 import { DisplayWatchListController } from "../../Adapter/DisplayWatchListController";
-import { WatchListController } from "../../Adapter/WatchListController";
+import { TrackCityController } from "../../Adapter/TrackCityController";
 import { WatchListsRepository } from "../../App/Commands/Ports/WatchListsRepository";
+import { TrackCity } from "../../App/Commands/TrackCity";
+import { TrackCityHandler } from "../../App/Commands/TrackCityHandler";
+import { CommandBus } from "../../App/CqrsModel/CommandBus";
 import { QueryBus } from "../../App/CqrsModel/QueryBus";
 import { DisplayWatchList } from "../../App/Queries/DisplayWatchList";
 import { DisplayWatchListHandler } from "../../App/Queries/DisplayWatchListHandler";
@@ -28,18 +31,23 @@ export class Application {
     const sm: SharedMemory = new SharedMemory();
     const repo: WatchListsRepository = new InMemoryWatchListRepository(sm);
     const projs: WatchListProjector = new InMemoryWatchListProjector(sm);
-    const controller: WatchListController = new WatchListController(
-      repo,
-      projs
-    );
+
+    const commandBus = new CommandBus();
+    commandBus.registerHandler(TrackCity.ID, new TrackCityHandler(repo));
+
     const queryBus = new QueryBus();
     queryBus.registerHandler(
       DisplayWatchList.ID,
       new DisplayWatchListHandler(projs)
     );
+
+    const trackCityController: TrackCityController = new TrackCityController(
+      commandBus
+    );
     const displayWatchListController = new DisplayWatchListController(queryBus);
+
     const watchListRouter = makeWatchListRouter(
-      controller,
+      trackCityController,
       displayWatchListController
     );
     this.expressApplication.use("/", watchListRouter);

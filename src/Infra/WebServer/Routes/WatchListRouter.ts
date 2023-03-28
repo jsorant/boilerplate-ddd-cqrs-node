@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { DisplayWatchListController } from "../../../Adapter/DisplayWatchListController";
-import { WatchListController } from "../../../Adapter/WatchListController";
+import { TrackCityController } from "../../../Adapter/TrackCityController";
 
 export const makeWatchListRouter = (
-  controller: WatchListController,
+  trackCityController: TrackCityController,
   displayWatchListController: DisplayWatchListController
 ): Router => {
   const eventsRouter: Router = Router();
@@ -14,7 +14,7 @@ export const makeWatchListRouter = (
   eventsRouter.post(
     "/trackcity",
     async (req: Request, res: Response, next: NextFunction) => {
-      await controller.postTrackCity(req, res, next);
+      await trackCityController.handleRequest(req, res);
     }
   );
 
