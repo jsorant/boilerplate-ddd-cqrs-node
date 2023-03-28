@@ -34,7 +34,7 @@ export class Application {
     );
     const queryBus = new QueryBus();
     queryBus.registerHandler(
-      new DisplayWatchList("toto"), // UGLy
+      DisplayWatchList.ID,
       new DisplayWatchListHandler(projs)
     );
     const displayWatchListController = new DisplayWatchListController(queryBus);

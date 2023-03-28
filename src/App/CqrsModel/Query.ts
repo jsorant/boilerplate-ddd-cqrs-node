@@ -1,3 +1,5 @@
 export interface Query {
-  readonly id: string;
+  readonly id: QueryId;
 }
+
+export type QueryId = string;

@@ -1,11 +1,11 @@
-import { Query } from "./Query";
+import { Query, QueryId } from "./Query";
 import { QueryHandler } from "./QueryHandler";
 
 export class QueryBus {
-  private readonly handlers = new Map<string, any>();
+  private readonly handlers = new Map<QueryId, any>();
 
-  registerHandler(query: Query, handler: any): void {
-    this.handlers.set(query.id, handler);
+  registerHandler(id: QueryId, handler: any): void {
+    this.handlers.set(id, handler);
   }
 
   async handle<TQueryResponse>(query: Query): Promise<TQueryResponse> {
