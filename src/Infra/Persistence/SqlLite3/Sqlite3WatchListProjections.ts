@@ -1,4 +1,4 @@
-import { WatchListProjections } from "../../../App/Queries/Ports/WatchListProjections";
+import { WatchListProjector } from "../../../App/Queries/Ports/WatchListProjector";
 import {
   CityProjection,
   WatchListProjection,
@@ -7,7 +7,7 @@ import { Sqlite3Database } from "./Sqlite3Database";
 import { WatchListCitiesTable } from "./Tables/WatchListCitiesTable";
 import { WatchListTable } from "./Tables/WatchListTable";
 
-export class Sqlite3WatchListProjections implements WatchListProjections {
+export class Sqlite3WatchListProjector implements WatchListProjector {
   private database: Sqlite3Database;
 
   constructor(database: Sqlite3Database) {

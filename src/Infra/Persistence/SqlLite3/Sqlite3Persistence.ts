@@ -1,8 +1,8 @@
 import { WatchListsRepository } from "../../../App/Commands/Ports/WatchListsRepository";
-import { WatchListProjections } from "../../../App/Queries/Ports/WatchListProjections";
+import { WatchListProjector } from "../../../App/Queries/Ports/WatchListProjector";
 import { Persistence } from "../Persistence";
 import { Sqlite3Database } from "./Sqlite3Database";
-import { Sqlite3WatchListProjections } from "./Sqlite3WatchListProjections";
+import { Sqlite3WatchListProjector } from "./Sqlite3WatchListProjections";
 import { Sqlite3WatchListsRepository } from "./Sqlite3WatchListsRepository";
 import { CityTable } from "./Tables/CityTable";
 import { Table } from "./Tables/Table";
@@ -29,7 +29,7 @@ export class Sqlite3Persistence implements Persistence {
     return new Sqlite3WatchListsRepository(this.database);
   }
 
-  getWatchListProjections(): WatchListProjections {
-    return new Sqlite3WatchListProjections(this.database);
+  getWatchListProjector(): WatchListProjector {
+    return new Sqlite3WatchListProjector(this.database);
   }
 }

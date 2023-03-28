@@ -5,11 +5,11 @@ import { assertIsAnErrorWithMessage } from "./TestTools";
 import {
   createForcedOrSqlite3Persistence,
   createForcedOrInMemoryPersistence,
-} from "./Persistence";
+} from "./TestsPersistenceFactory";
 import { TrackCity } from "../../src/App/Commands/TrackCity";
 import { TrackCityHandler } from "../../src/App/Commands/TrackCityHandler";
 import { WatchListsRepository } from "../../src/App/Commands/Ports/WatchListsRepository";
-import { WatchListProjections } from "../../src/App/Queries/Ports/WatchListProjections";
+import { WatchListProjector } from "../../src/App/Queries/Ports/WatchListProjector";
 import { DisplayWatchList } from "../../src/App/Queries/DisplayWatchList";
 import { WatchListProjection } from "../../src/App/Queries/Views/WatchListProjection";
 import { DisplayWatchListHandler } from "../../src/App/Queries/DisplayWatchListHandler";
@@ -96,7 +96,7 @@ async function trackCity(
 
 async function displayWatchList(
   name: string,
-  watchListProjections: WatchListProjections
+  watchListProjections: WatchListProjector
 ): Promise<WatchListProjection> {
   const query: DisplayWatchList = new DisplayWatchList(name);
   const handler: DisplayWatchListHandler = new DisplayWatchListHandler(

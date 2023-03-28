@@ -2,7 +2,7 @@ import { InMemoryPersistence } from "../../src/Infra/Persistence/InMemory/InMemo
 import { Persistence } from "../../src/Infra/Persistence/Persistence";
 import { Sqlite3Persistence } from "../../src/Infra/Persistence/SqlLite3/Sqlite3Persistence";
 
-const TEST_DATABASE_FILE_PATH: string = "fleets-test.db";
+const TEST_DATABASE_FILE_PATH: string = "sqlite3-test.db";
 
 export async function createForcedOrSqlite3Persistence(
   world: any
@@ -41,7 +41,7 @@ async function setupWorldWithPersistence(
   persistence: Persistence
 ): Promise<void> {
   world.watchListsRepository = persistence.getWatchListsRepository();
-  world.watchListProjections = persistence.getWatchListProjections();
+  world.watchListProjections = persistence.getWatchListProjector();
 }
 
 async function createSqlite3Persistence(): Promise<Persistence> {

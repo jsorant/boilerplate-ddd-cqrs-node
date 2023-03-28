@@ -1,18 +1,18 @@
 import { QueryHandler } from "../CqrsModel/QueryHandler";
 import { DisplayWatchList } from "./DisplayWatchList";
-import { WatchListProjections } from "./Ports/WatchListProjections";
+import { WatchListProjector } from "./Ports/WatchListProjector";
 import { WatchListProjection } from "./Views/WatchListProjection";
 
 export class DisplayWatchListHandler
   implements QueryHandler<DisplayWatchList, WatchListProjection>
 {
-  private projections: WatchListProjections;
+  private projector: WatchListProjector;
 
-  constructor(projections: WatchListProjections) {
-    this.projections = projections;
+  constructor(projector: WatchListProjector) {
+    this.projector = projector;
   }
 
   async handle(query: DisplayWatchList): Promise<WatchListProjection> {
-    return await this.projections.getWatchList(query.name);
+    return await this.projector.getWatchList(query.name);
   }
 }

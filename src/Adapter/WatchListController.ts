@@ -4,16 +4,16 @@ import { TrackCity } from "../App/Commands/TrackCity";
 import { TrackCityHandler } from "../App/Commands/TrackCityHandler";
 import { DisplayWatchList } from "../App/Queries/DisplayWatchList";
 import { DisplayWatchListHandler } from "../App/Queries/DisplayWatchListHandler";
-import { WatchListProjections } from "../App/Queries/Ports/WatchListProjections";
+import { WatchListProjector } from "../App/Queries/Ports/WatchListProjector";
 import { WatchListProjection } from "../App/Queries/Views/WatchListProjection";
 
 export class WatchListController {
   private watchListsRepository: WatchListsRepository;
-  private watchListProjections: WatchListProjections;
+  private watchListProjections: WatchListProjector;
 
   constructor(
     watchListsRepository: WatchListsRepository,
-    watchListProjections: WatchListProjections
+    watchListProjections: WatchListProjector
   ) {
     this.watchListsRepository = watchListsRepository;
     this.watchListProjections = watchListProjections;

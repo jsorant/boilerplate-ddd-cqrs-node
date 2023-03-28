@@ -2,8 +2,8 @@ import bodyParser from "body-parser";
 import express from "express";
 import { WatchListController } from "../../Adapter/WatchListController";
 import { WatchListsRepository } from "../../App/Commands/Ports/WatchListsRepository";
-import { WatchListProjections } from "../../App/Queries/Ports/WatchListProjections";
-import { InMemoryWatchListProjections } from "../Persistence/InMemory/InMemoryFleetProjections";
+import { WatchListProjector } from "../../App/Queries/Ports/WatchListProjector";
+import { InMemoryWatchListProjector } from "../Persistence/InMemory/InMemoryWatchListProjections";
 import { InMemoryWatchListRepository } from "../Persistence/InMemory/InMemoryWatchListRepository";
 import { SharedMemory } from "../Persistence/InMemory/SharedMemory";
 import { ErrorHandler } from "./ErrorHandler";
@@ -23,7 +23,7 @@ export class Application {
     // TODO DI
     const sm: SharedMemory = new SharedMemory();
     const repo: WatchListsRepository = new InMemoryWatchListRepository(sm);
-    const projs: WatchListProjections = new InMemoryWatchListProjections(sm);
+    const projs: WatchListProjector = new InMemoryWatchListProjector(sm);
     const controller: WatchListController = new WatchListController(
       repo,
       projs

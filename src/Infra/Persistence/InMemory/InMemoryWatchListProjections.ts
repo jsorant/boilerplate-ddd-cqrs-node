@@ -1,4 +1,4 @@
-import { WatchListProjections } from "../../../App/Queries/Ports/WatchListProjections";
+import { WatchListProjector } from "../../../App/Queries/Ports/WatchListProjector";
 import {
   CityProjection,
   WatchListProjection,
@@ -7,7 +7,7 @@ import { CityName } from "../../../Domain/WatchList/ValueObjects/CityName";
 import { WatchList } from "../../../Domain/WatchList/WatchList";
 import { SharedMemory } from "./SharedMemory";
 
-export class InMemoryWatchListProjections implements WatchListProjections {
+export class InMemoryWatchListProjector implements WatchListProjector {
   private sharedMemory: SharedMemory;
 
   constructor(sharedMemory: SharedMemory) {

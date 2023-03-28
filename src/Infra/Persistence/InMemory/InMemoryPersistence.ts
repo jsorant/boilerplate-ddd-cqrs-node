@@ -1,7 +1,7 @@
 import { WatchListsRepository } from "../../../App/Commands/Ports/WatchListsRepository";
-import { WatchListProjections } from "../../../App/Queries/Ports/WatchListProjections";
+import { WatchListProjector } from "../../../App/Queries/Ports/WatchListProjector";
 import { Persistence } from "../Persistence";
-import { InMemoryWatchListProjections } from "./InMemoryFleetProjections";
+import { InMemoryWatchListProjector } from "./InMemoryWatchListProjections";
 import { InMemoryWatchListRepository } from "./InMemoryWatchListRepository";
 import { SharedMemory } from "./SharedMemory";
 
@@ -16,7 +16,7 @@ export class InMemoryPersistence implements Persistence {
     return new InMemoryWatchListRepository(this.sharedMemory);
   }
 
-  getWatchListProjections(): WatchListProjections {
-    return new InMemoryWatchListProjections(this.sharedMemory);
+  getWatchListProjector(): WatchListProjector {
+    return new InMemoryWatchListProjector(this.sharedMemory);
   }
 }

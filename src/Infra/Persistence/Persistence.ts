@@ -1,8 +1,8 @@
 import { WatchListsRepository } from "../../App/Commands/Ports/WatchListsRepository";
-import { WatchListProjections } from "../../App/Queries/Ports/WatchListProjections";
+import { WatchListProjector } from "../../App/Queries/Ports/WatchListProjector";
 
 export interface Persistence {
   reset(): Promise<void>;
   getWatchListsRepository(): WatchListsRepository;
-  getWatchListProjections(): WatchListProjections;
+  getWatchListProjector(): WatchListProjector;
 }
