@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response, Router } from "express";
+import { DisplayWatchListController } from "../../../Adapter/DisplayWatchListController";
 import { WatchListController } from "../../../Adapter/WatchListController";
 
 export const makeWatchListRouter = (
-  controller: WatchListController
+  controller: WatchListController,
+  displayWatchListController: DisplayWatchListController
 ): Router => {
   const eventsRouter: Router = Router();
 
@@ -21,7 +23,7 @@ export const makeWatchListRouter = (
   eventsRouter.get(
     "/watchList",
     async (req: Request, res: Response, next: NextFunction) => {
-      await controller.get(req, res, next);
+      await displayWatchListController.handleRequest(req, res);
     }
   );
 

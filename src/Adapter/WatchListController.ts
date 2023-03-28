@@ -24,40 +24,55 @@ export class WatchListController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
+    await this.handleExceptionsOn(res, async () => {
+      await this.doPostTrackCity(req, res);
+    });
+  }
+
+  async get(req: Request, res: Response, next: NextFunction): Promise<void> {
+    await this.handleExceptionsOn(res, async () => {
+      await this.doGet(req, res);
+    });
+  }
+
+  private async handleExceptionsOn(res: Response, call: () => Promise<void>) {
     try {
-      //const id = req.params.id;
-      const { watchlist, name } = req.body;
-
-      const command: TrackCity = new TrackCity(watchlist, name);
-      const handler: TrackCityHandler = new TrackCityHandler(
-        this.watchListsRepository
-      );
-      await handler.handle(command);
-
-      // Format response
-      res.status(200);
-      res.json({});
+      await call();
     } catch (err: any) {
       res.status(500).send({ error: err.message });
     }
   }
 
-  async get(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const name: string = req.body.name;
+  private async doGet(req: Request, res: Response): Promise<void> {
+    // Adapt request
+    const name: string = req.body.name;
 
-      // Call use case
-      const query: DisplayWatchList = new DisplayWatchList(name);
-      const handler: DisplayWatchListHandler = new DisplayWatchListHandler(
-        this.watchListProjections
-      );
-      const watchList: WatchListProjection = await handler.handle(query);
+    // Call domain
+    const query: DisplayWatchList = new DisplayWatchList(name);
+    const handler: DisplayWatchListHandler = new DisplayWatchListHandler(
+      this.watchListProjections
+    );
+    const watchList: WatchListProjection = await handler.handle(query);
 
-      // Format response
-      res.status(200);
-      res.json(watchList);
-    } catch (err: any) {
-      res.status(500).send({ error: err.message });
-    }
+    // Format response
+    res.status(200);
+    res.json(watchList);
+  }
+
+  private async doPostTrackCity(req: Request, res: Response): Promise<void> {
+    // Adapt request
+    //const id = req.params.id;
+    const { watchlist, name } = req.body;
+
+    // Call domain
+    const command: TrackCity = new TrackCity(watchlist, name);
+    const handler: TrackCityHandler = new TrackCityHandler(
+      this.watchListsRepository
+    );
+    await handler.handle(command);
+
+    // Format response
+    res.status(200);
+    res.json({});
   }
 }

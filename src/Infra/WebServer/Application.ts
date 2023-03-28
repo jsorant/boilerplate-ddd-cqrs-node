@@ -1,7 +1,11 @@
 import bodyParser from "body-parser";
 import express from "express";
+import { DisplayWatchListController } from "../../Adapter/DisplayWatchListController";
 import { WatchListController } from "../../Adapter/WatchListController";
 import { WatchListsRepository } from "../../App/Commands/Ports/WatchListsRepository";
+import { QueryBus } from "../../App/CqrsModel/QueryBus";
+import { DisplayWatchList } from "../../App/Queries/DisplayWatchList";
+import { DisplayWatchListHandler } from "../../App/Queries/DisplayWatchListHandler";
 import { WatchListProjector } from "../../App/Queries/Ports/WatchListProjector";
 import { InMemoryWatchListProjector } from "../Persistence/InMemory/InMemoryWatchListProjections";
 import { InMemoryWatchListRepository } from "../Persistence/InMemory/InMemoryWatchListRepository";
@@ -28,7 +32,16 @@ export class Application {
       repo,
       projs
     );
-    const watchListRouter = makeWatchListRouter(controller);
+    const queryBus = new QueryBus();
+    queryBus.registerHandler(
+      new DisplayWatchList("toto"), // UGLy
+      new DisplayWatchListHandler(projs)
+    );
+    const displayWatchListController = new DisplayWatchListController(queryBus);
+    const watchListRouter = makeWatchListRouter(
+      controller,
+      displayWatchListController
+    );
     this.expressApplication.use("/", watchListRouter);
 
     // generic error handler

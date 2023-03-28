@@ -15,6 +15,7 @@
     "start:inmemory": "tsc && node dist/src/Main/InMemory/Main.js",
     "dev:inmemory": "ts-node src/Main/InMemory/Main.ts",
     "test": "cucumber-js ./tests/Features/",
+    "test:all": "npm test && npm run test:inmemory && npm run test:sqlite3",
     "test:inmemory": "npm test -- --profile inmemory",
     "test:sqlite3": "npm test -- --profile sqlite3",
     "test:inmemory:only": "npm run test:inmemory -- --tags \"@only\"",
