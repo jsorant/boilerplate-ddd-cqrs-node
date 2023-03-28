@@ -68,6 +68,7 @@ npm run dev:inmemory
 
 # Next
 
+- Switch persistence in production
 - MySql persistence with docker
 - scripts for run with containers
 - e2e tests with test containers

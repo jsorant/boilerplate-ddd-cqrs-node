@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { DisplayWatchListController } from "../../../Adapter/DisplayWatchListController";
-import { TrackCityController } from "../../../Adapter/TrackCityController";
+import { DisplayWatchListController } from "../../Adapter/DisplayWatchListController";
+import { TrackCityController } from "../../Adapter/TrackCityController";
 
-export const makeWatchListRouter = (
+export const makeRouter = (
   trackCityController: TrackCityController,
   displayWatchListController: DisplayWatchListController
 ): Router => {

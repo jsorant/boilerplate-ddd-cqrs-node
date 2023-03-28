@@ -1,54 +1,25 @@
 import bodyParser from "body-parser";
 import express from "express";
-import { DisplayWatchListController } from "../../Adapter/DisplayWatchListController";
-import { TrackCityController } from "../../Adapter/TrackCityController";
-import { WatchListsRepository } from "../../App/Commands/Ports/WatchListsRepository";
-import { TrackCity } from "../../App/Commands/TrackCity";
-import { TrackCityHandler } from "../../App/Commands/TrackCityHandler";
-import { CommandBus } from "../../App/CqrsModel/CommandBus";
-import { QueryBus } from "../../App/CqrsModel/QueryBus";
-import { DisplayWatchList } from "../../App/Queries/DisplayWatchList";
-import { DisplayWatchListHandler } from "../../App/Queries/DisplayWatchListHandler";
-import { WatchListProjector } from "../../App/Queries/Ports/WatchListProjector";
-import { InMemoryWatchListProjector } from "../Persistence/InMemory/InMemoryWatchListProjections";
-import { InMemoryWatchListRepository } from "../Persistence/InMemory/InMemoryWatchListRepository";
-import { SharedMemory } from "../Persistence/InMemory/SharedMemory";
+import { ControllersFactory } from "../../Main/ControllersFactory";
 import { ErrorHandler } from "./ErrorHandler";
-import { makeWatchListRouter } from "./Routes/WatchListRouter";
+import { makeRouter } from "./Router";
 
 export class Application {
   private expressApplication: express.Application;
+  private controllersFactory: ControllersFactory;
 
-  constructor() {
+  constructor(controllersFactory: ControllersFactory) {
     this.expressApplication = express();
+    this.controllersFactory = controllersFactory;
 
     // load middlewares
     this.expressApplication.use(bodyParser.urlencoded({ extended: true }));
     this.expressApplication.use(bodyParser.json());
 
     // load routes
-    // TODO DI
-    const sm: SharedMemory = new SharedMemory();
-    const repo: WatchListsRepository = new InMemoryWatchListRepository(sm);
-    const projs: WatchListProjector = new InMemoryWatchListProjector(sm);
-
-    const commandBus = new CommandBus();
-    commandBus.registerHandler(TrackCity.ID, new TrackCityHandler(repo));
-
-    const queryBus = new QueryBus();
-    queryBus.registerHandler(
-      DisplayWatchList.ID,
-      new DisplayWatchListHandler(projs)
-    );
-
-    const trackCityController: TrackCityController = new TrackCityController(
-      commandBus
-    );
-    const displayWatchListController = new DisplayWatchListController(queryBus);
-
-    const watchListRouter = makeWatchListRouter(
-      trackCityController,
-      displayWatchListController
+    const watchListRouter = makeRouter(
+      controllersFactory.makeTrackCityController(),
+      controllersFactory.makeDisplayWatchListController()
     );
     this.expressApplication.use("/", watchListRouter);
 
